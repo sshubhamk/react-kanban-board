@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+  --black: #212121;
+  --light-black: #424242;
+  --teal: #00adb5;
+  --white: #eeeeee;
+  --dark-white: #e0e0e0;
+  background-color: var(--black);
+  color: var(--white);
+}
+
+body {
+  height: 100dvh;
+}
