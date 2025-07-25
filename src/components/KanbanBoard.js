@@ -8,6 +8,15 @@ const KanbanBoard = ({ props, onDeleteBoard }) => {
   const board = props;
   const [isEditTitle, setEditTitle] = useState(false);
 
+  const actionItemsStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '1rem',
+    paddingBottom: '1rem',
+    borderBottom: '1px solid #e0e0e0',
+  };
+
   const displayTitle = () => {
     return isEditTitle ?
       <input type="text" value={board.title} /> :
@@ -16,7 +25,7 @@ const KanbanBoard = ({ props, onDeleteBoard }) => {
 
   return (
     <div className='main-board'>
-      <div className="action-items">
+      <div style={actionItemsStyle} className="action-items">
         {displayTitle()}
         <button type='button' onClick={() => {
           onDeleteBoard(board.id);
