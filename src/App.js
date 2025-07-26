@@ -1,5 +1,5 @@
 import { Button, ConfigProvider, Modal, theme } from 'antd';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import './App.css';
 import AddIcon from './assets/AddIcon';
 import DarkIcon from './assets/DarkIcon';
@@ -43,6 +43,19 @@ function App() {
   const mainBg = currentTokens.colorBackground;
   const mainColor = isDark ? '#fff' : '#000';
 
+  useEffect(() => {
+    const systemPrefersDark = window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setIsDark(systemPrefersDark);
+
+    // Optional: Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => setIsDark(e.matches);
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
   const mainContainerStyle = useMemo(() => ({
     minHeight: '100dvh',
     background: mainBg,
@@ -50,6 +63,7 @@ function App() {
     transition: 'background 0.3s',
     padding: '1rem',
     margin: 'auto',
+    overflow: 'auto'
   }), [mainBg, mainColor]);
 
   const flexEndStyle = {
@@ -70,7 +84,8 @@ function App() {
     background: mainBg,
     color: mainColor,
     display: 'flex',
-    gap: '1rem'
+    gap: '1rem',
+    minHeight: '90dvh'
   }), [mainBg, mainColor]);
 
   const addBoardBtnStyle = {
@@ -120,6 +135,10 @@ function App() {
     setSections(prevBoards => prevBoards.filter((item) => item.id !== id));
   };
 
+  const onUpdateTitle = (id, newTitle) => {
+    setSections(prevBoards => prevBoards.map((item) => item.id === id ? { ...item, title: newTitle } : item));
+  }
+
   return (
     <ConfigProvider
       theme={{
@@ -135,9 +154,10 @@ function App() {
           <Button style={themeSwitchBtnStyle} icon={isDark ? <LightIcon /> : <DarkIcon />}
             onClick={handleThemeSwitch} />
         </div>
+
         <div style={sectionStyle}>
           {sections.map((board) => (
-            <KanbanBoard props={board} key={board.id} onDeleteBoard={onDeleteBoard} />
+            <KanbanBoard props={board} key={board.id} onDeleteBoard={onDeleteBoard} onUpdateTitle={onUpdateTitle} />
           ))}
           <div style={sectionStyle}>
             <Button style={addBoardBtnStyle} type="primary" onClick={addNewBoard}>
@@ -145,6 +165,7 @@ function App() {
             </Button>
           </div>
         </div>
+
         <Modal
           title="What would you like to name your project?"
           closable={{ 'aria-label': 'Custom Close Button' }}
