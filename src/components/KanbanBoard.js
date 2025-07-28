@@ -71,7 +71,16 @@ const KanbanBoard = ({ props, onDeleteBoard }) => {
   return (
     <div className='main-board'>
       <div style={actionItemsStyle}>
-        {displayTitle()}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span style={{
+            background: board.color,
+            width: '12px',
+            height: '12px',
+            borderRadius: '50%',
+            display: 'inline-block',
+          }}></span>
+          {displayTitle()}
+        </div>
         <button style={actionStyles} type='button' onClick={() => { }}>
           <Dropdown
             menu={{
