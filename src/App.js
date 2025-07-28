@@ -29,8 +29,11 @@ const darkTokens = {
 };
 
 function App() {
-  const [sections, setSections] = useState([...DEFAULT_BOARD]);
   const [isDark, setIsDark] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [titleColor, setTitleColor] = useState('');
+  const [allSections, setAllSections] = useState([...DEFAULT_BOARD]);
+  const [sections, setSections] = useState([...DEFAULT_BOARD]);
   const [projectName, setProjectName] = useState(localStorage.getItem('projectName') || '');
   const [isModalOpen, setIsModalOpen] = useState(projectName.length === 0);
 
@@ -43,6 +46,7 @@ function App() {
     const systemPrefersDark = window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches;
     setIsDark(systemPrefersDark);
+    setTitleColor(UtilityFunctions.generateRandomColor());
 
     // Optional: Listen for system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -67,8 +71,8 @@ function App() {
     background: mainBg,
     color: mainColor,
     transition: 'background 0.3s',
-    padding: '1rem',
-    margin: 'auto',
+    padding: '0 2rem 2rem',
+    // margin: 'auto',
   }), [mainBg, mainColor]);
 
   const flexEndStyle = {
@@ -133,8 +137,14 @@ function App() {
   const addNewBoard = () => {
     const board = {
       id: UtilityFunctions.generateId(),
-      title: projectName || `Board ${sections.length + 1}`,
+      title: projectName || `Board ${allSections.length + 1}`,
+      cards: [],
+      color: UtilityFunctions.generateRandomColor(),
     };
+    setAllSections(prevBoards => [
+      ...prevBoards,
+      board,
+    ]);
     setSections(prevBoards => [
       ...prevBoards,
       board,
@@ -142,20 +152,44 @@ function App() {
   };
 
   const onDeleteBoard = (id) => {
+    setAllSections(prevBoards => prevBoards.filter((item) => item.id !== id));
     setSections(prevBoards => prevBoards.filter((item) => item.id !== id));
   };
 
   const onUpdateTitle = (id, newTitle) => {
+    setAllSections(prevBoards => prevBoards.map((item) => item.id === id ? { ...item, title: newTitle } : item));
     setSections(prevBoards => prevBoards.map((item) => item.id === id ? { ...item, title: newTitle } : item));
-  }
+  };
 
   const addNewCard = (boardId, newCard) => {
+    setAllSections(prevBoards => prevBoards.map(board => {
+      if (board.id === boardId) {
+        return { ...board, cards: [...board.cards, newCard] };
+      }
+      return board;
+    }));
     setSections(prevBoards => prevBoards.map(board => {
       if (board.id === boardId) {
         return { ...board, cards: [...board.cards, newCard] };
       }
       return board;
     }));
+  };
+
+  const searchCards = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    const term = searchTerm.toLowerCase();
+    if (term.length) {
+      setSections(allSections.map(board => ({
+        ...board,
+        cards: board.cards.filter(card =>
+          card.title.toLowerCase().includes(term) ||
+          card.description.toLowerCase().includes(term)
+        )
+      })));
+    } else {
+      setSections([...allSections]);
+    }
   };
 
   return (
@@ -168,15 +202,25 @@ function App() {
       <div style={mainContainerStyle}>
         <div style={flexEndStyle}>
           {projectName.length > 0 && (
-            <h1 style={{ fontWeight: '700', color: UtilityFunctions.generateRandomColor() }}>{projectName}</h1>
+            <h1 style={{ fontWeight: '700', color: titleColor }}>{projectName}</h1>
           )}
           <Button style={themeSwitchBtnStyle} icon={isDark ? <LightIcon /> : <DarkIcon />}
             onClick={handleThemeSwitch} />
         </div>
 
+        <div style={{
+          width: '100%',
+          padding: '2rem 0',
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}>
+          <input style={{ width: '25%' }} value={searchTerm} onChange={(e) => searchCards(e.target.value)}
+            placeholder='Search for cards with title or description' />
+        </div>
+
         <div style={mainBoardStyle}>
           <div style={sectionStyle}>
-            {sections.map((board) => (
+            {sections?.map((board) => (
               <KanbanBoard props={board} key={board.id}
                 onDeleteBoard={onDeleteBoard}
                 onUpdateTitle={onUpdateTitle}
@@ -185,8 +229,8 @@ function App() {
           </div>
 
           <div style={{
-            height: '50px',
-            width: '50px',
+            minHeight: '50px',
+            minWidth: '50px',
           }}>
             <Button style={addBoardBtnStyle} type="primary" onClick={addNewBoard}>
               <AddIcon />

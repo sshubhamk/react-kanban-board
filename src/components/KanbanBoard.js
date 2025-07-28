@@ -13,18 +13,10 @@ const KanbanBoard = ({ props, onDeleteBoard, onUpdateTitle, addNewCard }) => {
 
   const inputStyles = {
     width: '85%',
-    padding: '8px',
-    borderRadius: '8px',
-    outline: 'none',
-    border: '1px solid #d9d9d9',
   };
 
   const cardInputStyles = {
     width: '100%',
-    padding: '8px',
-    borderRadius: '8px',
-    outline: 'none',
-    border: '1px solid #d9d9d9',
   }
 
   const actionItemsStyle = {
@@ -140,7 +132,7 @@ const KanbanBoard = ({ props, onDeleteBoard, onUpdateTitle, addNewCard }) => {
         </button>
       </div>
       <div style={{ overflow: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {board.cards.map((card) => (
+        {board?.cards?.map((card) => (
           <KanbanCard key={card.id} props={card} />
         ))}
       </div>
