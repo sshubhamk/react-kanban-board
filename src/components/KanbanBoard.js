@@ -1,6 +1,7 @@
 import { Dropdown, Modal, Space, Typography } from 'antd';
 import { useState } from 'react';
 import OptionIcon from '../assets/OptionIcon';
+import { actionItemsStyle, actionStyles, cardInputStyles, inputStyles, mainBoardStyles } from '../styles/styles';
 import KanbanCard from './KanbanCard';
 
 const KanbanBoard = ({ props, onDeleteBoard, onUpdateTitle, addNewCard }) => {
@@ -10,38 +11,6 @@ const KanbanBoard = ({ props, onDeleteBoard, onUpdateTitle, addNewCard }) => {
   const [isEditTitle, setEditTitle] = useState(false);
   const [cardTitle, setCardTitle] = useState('');
   const [cardDescription, setCardDescription] = useState('');
-
-  const inputStyles = {
-    width: '85%',
-  };
-
-  const cardInputStyles = {
-    width: '100%',
-  }
-
-  const actionItemsStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '1rem',
-    paddingBottom: '1rem',
-    borderBottom: '1px solid #e0e0e0',
-  };
-
-  const actionStyles = {
-    background: 'transparent',
-    border: 'none',
-  };
-
-  const mainBoardStyles = {
-    width: '400px',
-    minHeight: '100%',
-    padding: '1rem 1rem 0 1rem',
-    marginTop: '1rem',
-    borderRadius: '8px',
-    border: '2px solid transparent',
-    boxShadow: 'inset 0 0 0.5px 1px hsla(0,0%,100%,0.075), 0 0 0 1px hsla(0,0%,0%,0.05), 0 0.3px 0.4px hsla(0,0%,0%,0.02), 0 0.9px 1.5px hsla(0,0%,0%,0.045), 0 3.5px 6px hsla(0,0%,0%,0.09)'
-  };
 
   const optionItems = [
     {
@@ -83,8 +52,8 @@ const KanbanBoard = ({ props, onDeleteBoard, onUpdateTitle, addNewCard }) => {
   const handleTitleKeyDown = (e) => {
     if (e.key === 'Enter') {
       setEditTitle(false);
-      if (props.onUpdateTitle) {
-        props.onUpdateTitle(board.id, title);
+      if (onUpdateTitle) {
+        onUpdateTitle(board.id, title);
       }
     }
   };

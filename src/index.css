@@ -58,7 +58,8 @@ button {
   background: transparent;
 }
 
-input {
+input,
+textarea {
   padding: 8px;
   outline: none;
   border-radius: 8px;
