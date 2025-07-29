@@ -100,7 +100,7 @@ const KanbanBoard = ({ props, onDeleteBoard, onUpdateTitle, addNewCard }) => {
           </Dropdown>
         </button>
       </div>
-      <div style={{ overflow: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem', height: '650px' }}>
         {board?.cards?.map((card) => (
           <KanbanCard key={card.id} props={card} />
         ))}

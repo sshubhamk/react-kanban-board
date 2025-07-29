@@ -1,7 +1,7 @@
 const SearchBar = ({ searchTerm, setSearchTerm }) => (
   <div style={{
     width: '100%',
-    padding: '2rem 0',
+    padding: '1rem 0',
     display: 'flex',
     justifyContent: 'flex-end',
   }}>

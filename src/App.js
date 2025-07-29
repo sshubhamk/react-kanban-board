@@ -35,8 +35,7 @@ function App() {
     background: mainBg,
     color: mainColor,
     transition: 'background 0.3s',
-    padding: '0 2rem 2rem',
-    // margin: 'auto',
+    padding: '0 2rem 0.5rem',
   }), [mainBg, mainColor]);
 
   useEffect(() => {

@@ -9,7 +9,6 @@
 html,
 body {
   height: 100%;
-  width: 100%;
   background: #f5f7fa;
   color: #222;
   transition: background 0.3s;
@@ -23,7 +22,6 @@ html.dark-mode {
 
 body {
   min-height: 100vh;
-  /* min-width: 100vw; */
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -31,7 +29,6 @@ body {
 
 #root {
   height: 100vh;
-  /* width: 100vw; */
   display: flex;
   flex-direction: column;
 }
@@ -64,4 +61,63 @@ textarea {
   outline: none;
   border-radius: 8px;
   border: 1px solid #d9d9d9;
+}
+
+/* Track styling */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+/* Hover effect - make it pop out */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(161, 161, 161, 0.9);
+  width: 10px;
+  border-radius: 6px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  transform: translateX(-1px);
+}
+
+/* Active effect - even more prominent */
+::-webkit-scrollbar-thumb:active {
+  background: rgba(130, 130, 130, 1);
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  transform: translateX(-2px);
+}
+
+/* Make the scrollbar track appear to indent when active */
+::-webkit-scrollbar-track:active {
+  background: #e9e9e9;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Auto-hide scrollbar: only show on scroll/hover */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(193, 193, 193, 0.7);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: opacity 0.2s;
+  opacity: 0;
+}
+
+:hover::-webkit-scrollbar-thumb,
+:active::-webkit-scrollbar-thumb,
+:focus::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  opacity: 1;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(193, 193, 193, 0.7) transparent;
 }

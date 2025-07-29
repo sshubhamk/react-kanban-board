@@ -26,6 +26,26 @@ export const DEFAULT_BOARD = [
         title: 'Research authentication options',
         description: 'Compare OAuth, JWT, and social login for user authentication.',
       },
+      {
+        id: UtilityFunctions.generateId(),
+        title: 'Set up project repository and setup main',
+        description: 'Initialize the GitHub repository and set up the main branch.Initialize the GitHub repository and set up the main branch.',
+      },
+      {
+        id: UtilityFunctions.generateId(),
+        title: 'Write project documentation',
+        description: 'Draft the initial README with project goals and setup instructions.',
+      },
+      {
+        id: UtilityFunctions.generateId(),
+        title: 'Design wireframes',
+        description: 'Create wireframes for the main dashboard and user flows.',
+      },
+      {
+        id: UtilityFunctions.generateId(),
+        title: 'Research authentication options',
+        description: 'Compare OAuth, JWT, and social login for user authentication.',
+      },
     ]
   },
   {
